@@ -1,6 +1,6 @@
 package com.jepsolucoes.fansmarvel.model.api;
 
-import com.jepsolucoes.fansmarvel.model.Result;
+import com.jepsolucoes.fansmarvel.model.ResultadoROOT;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -16,7 +16,7 @@ public interface MarvelService {
 
 
     @GET("characters")
-    Call<Result> recuperarVideos(
+    Call<ResultadoROOT> recuperarVideos(
             @Query("ts") String ts,
             @Query("apikey") String apikey,
             @Query("hash") String hash

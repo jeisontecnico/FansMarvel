@@ -1,22 +1,10 @@
 package com.jepsolucoes.fansmarvel.model;
 
-import java.util.Date;
-
-public class Characters {
-
-    private int id;
-    private String name;
+public class Results {
+    public int id;
+    public String name;
     private String description;
-    private String thumbnail;
-    private Date modified;
-
-    public Date getModified() {
-        return modified;
-    }
-
-    public void setModified(Date modified) {
-        this.modified = modified;
-    }
+    public CharThumbnail thumbnail;
 
     public int getId() {
         return id;
@@ -39,14 +27,20 @@ public class Characters {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+
+        if(description.isEmpty() || description == null){
+            this.description = "No description available for this character";
+        }else{
+            this.description = description;
+        }
+
     }
 
-    public String getThumbnail() {
+    public CharThumbnail getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(String thumbnail) {
+    public void setThumbnail(CharThumbnail thumbnail) {
         this.thumbnail = thumbnail;
     }
 }
