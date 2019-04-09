@@ -3,8 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.jepsolucoes.fansmarvel.view.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/menusearch"
         android:orderInCategory="100"
-        android:title="Configurações"
-        app:showAsAction="never" />
+        android:title="Pesquisar"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_search_branco_24dp"
+
+        />
+
+
 </menu>

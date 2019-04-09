@@ -1,11 +1,22 @@
 package com.jepsolucoes.fansmarvel.model;
 
+import java.util.Date;
+
 public class Characters {
 
     private int id;
     private String name;
     private String description;
     private String thumbnail;
+    private Date modified;
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
+    }
 
     public int getId() {
         return id;
