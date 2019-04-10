@@ -80,7 +80,6 @@ public class CharReceiver {
                     resultadoROOT = response.body();
                     lista = resultadoROOT.data.results;
                     configuraRecyclerView();
-                    cliqueRecycler();
                     //Log.d("resultado", "resultado url: "+lista.get(0).thumbnail.getPath().toString());
                 }
             }
@@ -118,32 +117,10 @@ public class CharReceiver {
         recyclerLista.setLayoutManager(new LinearLayoutManager(context));
         recyclerLista.setAdapter(adapterChars);
     }
-    public void cliqueRecycler() {
-        recyclerLista.addOnItemTouchListener(new RecyclerItemClickListener(
-                context,
-                recyclerLista,
-                new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Results results = lista.get(position);
-                        int idCharacter = results.getId();
 
-                        Intent i = new Intent(view.getContext(), CharacterActivity.class);
-                        i.putExtra("id",idCharacter);
-
-
-                    }
-
-                    @Override
-                    public void onLongItemClick(View view, int position) {
-
-                    }
-
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    }
-                }
-        ));
+    public int recuperaIdLista(int position){
+        Results results = lista.get(position);
+        int idCharacter = results.getId();
+        return idCharacter;
     }
 }
