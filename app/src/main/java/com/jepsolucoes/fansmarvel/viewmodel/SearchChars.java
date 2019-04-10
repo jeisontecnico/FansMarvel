@@ -16,6 +16,7 @@ public class SearchChars {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
 
+
                         return false;
                     }
 

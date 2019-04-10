@@ -17,6 +17,8 @@ public interface MarvelService {
 
     @GET("characters")
     Call<ResultadoROOT> recuperarVideos(
+            @Query("nameStartsWith") String nameStartsWith,
+            @Query("limit") int limit,
             @Query("ts") String ts,
             @Query("apikey") String apikey,
             @Query("hash") String hash

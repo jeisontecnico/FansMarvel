@@ -1,4 +1,4 @@
-package com.jepsolucoes.fansmarvel.view;
+package com.jepsolucoes.fansmarvel.view.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MaterialSearchView searchView;
     public LinearLayout linearLayout;
+    String pesquisa;
 
 
     @Override
@@ -30,7 +31,25 @@ public class MainActivity extends AppCompatActivity {
         linearLayout = findViewById(R.id.linearMain);
 
         CharReceiver charReceiver = new CharReceiver(linearLayout);
-        charReceiver.charReceiver();
+        charReceiver.charReceiver("");
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                CharReceiver charReceiver = new CharReceiver(linearLayout);
+                pesquisa = query;
+                charReceiver.charReceiver(pesquisa);
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
     }
 
     //inflate do SearchView
@@ -40,7 +59,12 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.menusearch);
         searchView.setMenuItem(item);
+
         return true;
+
     }
+
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.jepsolucoes.fansmarvel.viewmodel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,20 +9,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.jepsolucoes.fansmarvel.R;
-import com.jepsolucoes.fansmarvel.model.ListaChars;
 import com.jepsolucoes.fansmarvel.model.ResultadoROOT;
 import com.jepsolucoes.fansmarvel.model.Results;
 import com.jepsolucoes.fansmarvel.model.api.Constants;
 import com.jepsolucoes.fansmarvel.model.api.MarvelService;
 import com.jepsolucoes.fansmarvel.model.api.RetrofitConfig;
-import com.jepsolucoes.fansmarvel.view.MainActivity;
+import com.jepsolucoes.fansmarvel.view.Activities.CharacterActivity;
 import com.jepsolucoes.fansmarvel.viewmodel.adapter.AdapterChars;
 import com.jepsolucoes.fansmarvel.viewmodel.listener.RecyclerItemClickListener;
 
-import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -40,24 +38,35 @@ public class CharReceiver {
     private String ts;
     private String hash;
     private String md5;
+    private int limit;
     public List<Results> lista = new ArrayList<>();
     ResultadoROOT resultadoROOT;
     private RecyclerView recyclerLista;
     private AdapterChars adapterChars;
     public Context context;
+    LinearLayout linearLayout;
 
     public CharReceiver(LinearLayout linearLayout) {
-        recyclerLista = linearLayout.findViewById(R.id.recyclerLista);
+        this.linearLayout = linearLayout;
     }
 
-    public void charReceiver() {
+    public void charReceiver(String pesquisa) {
+
+        if(pesquisa.isEmpty()){
+            pesquisa = null;
+        }
+        String nameStartsWith = pesquisa;
+        recyclerLista = linearLayout.findViewById(R.id.recyclerLista);
         retrofit = RetrofitConfig.getRetrofit();
+        limit = 100;
         ts = String.valueOf(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis() / 1000L);
         md5 = (ts + Constants.PRIV_KEY + Constants.API_KEY);
         hash = stringHexa(gerarHash(md5, "MD5"));
 
         MarvelService marvelService = retrofit.create(MarvelService.class);
         marvelService.recuperarVideos(
+                nameStartsWith,
+                limit,
                 ts,
                 Constants.API_KEY,
                 hash
@@ -71,7 +80,8 @@ public class CharReceiver {
                     resultadoROOT = response.body();
                     lista = resultadoROOT.data.results;
                     configuraRecyclerView();
-                    Log.d("resultado", "resultado url: "+lista.get(0).thumbnail.getPath().toString());
+                    cliqueRecycler();
+                    //Log.d("resultado", "resultado url: "+lista.get(0).thumbnail.getPath().toString());
                 }
             }
 
@@ -107,7 +117,8 @@ public class CharReceiver {
         recyclerLista.setHasFixedSize(true);
         recyclerLista.setLayoutManager(new LinearLayoutManager(context));
         recyclerLista.setAdapter(adapterChars);
-
+    }
+    public void cliqueRecycler() {
         recyclerLista.addOnItemTouchListener(new RecyclerItemClickListener(
                 context,
                 recyclerLista,
@@ -115,9 +126,12 @@ public class CharReceiver {
                     @Override
                     public void onItemClick(View view, int position) {
                         Results results = lista.get(position);
-                        String idCharacter = results.getId();
+                        int idCharacter = results.getId();
 
-                        Intent i = new Intent(MainActivity.this, )
+                        Intent i = new Intent(view.getContext(), CharacterActivity.class);
+                        i.putExtra("id",idCharacter);
+
+
                     }
 
                     @Override
@@ -131,6 +145,5 @@ public class CharReceiver {
                     }
                 }
         ));
-
     }
 }

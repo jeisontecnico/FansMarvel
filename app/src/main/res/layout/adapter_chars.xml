@@ -29,6 +29,7 @@
         android:layout_width="123dp"
         android:layout_height="105dp"
         android:scaleType="centerCrop"
+        android:visibility="visible"
         app:srcCompat="@drawable/ic_marvel" />
 
 
