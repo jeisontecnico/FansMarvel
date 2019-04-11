@@ -1,4 +1,4 @@
-package com.jepsolucoes.fansmarvel.model.api;
+package com.jepsolucoes.fansmarvel.api;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

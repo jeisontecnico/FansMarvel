@@ -1,6 +1,5 @@
-package com.jepsolucoes.fansmarvel.viewmodel.adapter;
+package com.jepsolucoes.fansmarvel.view.Activities.adapter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,20 +7,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.jepsolucoes.fansmarvel.R;
+import com.jepsolucoes.fansmarvel.model.AdapterInterface;
 import com.jepsolucoes.fansmarvel.model.Results;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterChars extends RecyclerView.Adapter<AdapterChars.MyViewHolder> {
 
-    private List<Results> chars;
-    private Context context;
+    private List<Results> listChars = new ArrayList<>();
 
-    public AdapterChars(List<Results> chars, Context context) {
-        this.chars = chars;
-        this.context = context;
+    private AdapterInterface listener;
+
+    public AdapterChars(AdapterInterface listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -33,17 +35,24 @@ public class AdapterChars extends RecyclerView.Adapter<AdapterChars.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        Results results = chars.get(i);
+        final Results results = listChars.get(i);
         myViewHolder.name.setText(results.getName());
         String url = results.thumbnail.getPath();
         String extension = results.thumbnail.getExtension();
-        Picasso.get().load(url + "/standard_medium." + extension).into(myViewHolder.thumbnail);
+        Picasso.get().load(url + "/portrait_xlarge." + extension).into(myViewHolder.thumbnail);
 
+
+        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClickListener(results);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return chars != null ? chars.size() : 0;
+        return listChars != null ? listChars.size() : 0;
     }
 
 
@@ -59,5 +68,16 @@ public class AdapterChars extends RecyclerView.Adapter<AdapterChars.MyViewHolder
             name = itemView.findViewById(R.id.textChars);
             thumbnail = itemView.findViewById(R.id.imageChar);
         }
+    }
+
+    public void addItens(List<Results> resultsList){
+        this.listChars.addAll(resultsList);
+        notifyDataSetChanged();
+    }
+
+    public void deleteItems(){
+        listChars.clear();
+// 2. Notify the adapter of the update
+        notifyDataSetChanged();
     }
 }
