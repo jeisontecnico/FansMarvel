@@ -1,4 +1,4 @@
-package com.jepsolucoes.fansmarvel.model.listener;
+package com.jepsolucoes.fansmarvel.viewmodel.listener;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

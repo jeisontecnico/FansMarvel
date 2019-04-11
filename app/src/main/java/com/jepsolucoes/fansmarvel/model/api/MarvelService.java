@@ -1,6 +1,6 @@
-package com.jepsolucoes.fansmarvel.api;
+package com.jepsolucoes.fansmarvel.model.api;
 
-import com.jepsolucoes.fansmarvel.model.ResultsROOT;
+import com.jepsolucoes.fansmarvel.model.ResultadoROOT;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -16,10 +16,8 @@ public interface MarvelService {
 
 
     @GET("characters")
-    Call<ResultsROOT> recuperarVideos(
+    Call<ResultadoROOT> recuperarVideos(
             @Query("nameStartsWith") String nameStartsWith,
-            @Query("orderBy") String orderBy,
-            @Query("offset") int offset,
             @Query("limit") int limit,
             @Query("ts") String ts,
             @Query("apikey") String apikey,
